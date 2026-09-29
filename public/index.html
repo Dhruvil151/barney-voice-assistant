@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barney Stinson — Legendary Bot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="avatar">🕴️</div>
+      <div class="header-text">
+        <h1>Barney Stinson</h1>
+        <p><span class="status-dot"></span>Legendary · Available · Suited Up</p>
+      </div>
+      <div class="header-actions">
+        <button class="toggle-btn" id="backendToggle" title="Switch TTS engine">
+          🎙️ Chatterbox
+        </button>
+        <button class="toggle-btn active" id="voiceToggle" title="Toggle voice responses">
+          🔊 Voice
+        </button>
+      </div>
+    </header>
+
+    <!-- Messages -->
+    <div class="messages" id="messages">
+      <div class="welcome" id="welcome">
+        <div class="big-emoji">🕴️</div>
+        <h2>Suit up, bro.</h2>
+        <p>An unofficial AI character demo inspired by Barney Stinson.
+          Responses are generated, not statements by a real person.</p>
+
+        <div class="starters">
+          <button class="starter-chip" onclick="sendStarter(this)">Give me life advice</button>
+          <button class="starter-chip" onclick="sendStarter(this)">How do I become more awesome?</button>
+          <button class="starter-chip" onclick="sendStarter(this)">Tell me about The Playbook</button>
+          <button class="starter-chip" onclick="sendStarter(this)">What is The Bro Code?</button>
+          <button class="starter-chip" onclick="sendStarter(this)">How do I dress better?</button>
+          <button class="starter-chip" onclick="sendStarter(this)">I'm having a bad day</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input area -->
+    <div class="input-area">
+      <div class="input-row">
+        <button class="icon-btn mic-btn" id="micBtn" title="Hold to speak">🎤</button>
+        <textarea
+          class="text-input"
+          id="textInput"
+          placeholder="Ask Barney anything..."
+          rows="1"
+        ></textarea>
+        <button class="icon-btn send-btn" id="sendBtn" title="Send" disabled>➤</button>
+      </div>
+      <p class="hint">Click 🎤 to speak &nbsp;·&nbsp; Press Enter to send &nbsp;·&nbsp; Shift+Enter for newline</p>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

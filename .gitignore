@@ -1,0 +1,37 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+token*.json
+*storage_state*.json
+# Dependencies and generated files
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+dist/
+build/
+coverage/
+*.log
+logs/
+test-results/
+.DS_Store
+Thumbs.db
+# Assistant state and private working files
+.ai/
+.claude/
+.aider*
+.codex/
+.publication/
+
+models/
+voice_ref/
+*.wav
+*.mp3
+*.mp4
+*.pth
+*.pt
+*.safetensors
