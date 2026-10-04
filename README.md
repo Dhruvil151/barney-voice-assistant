@@ -1,73 +1,59 @@
 # Barney Voice Assistant
 
-A character-inspired chat and voice demo with a browser interface, an Express API, Groq chat completions, and a persistent Python speech service. This is an unofficial fan project, not an affiliation with the show, its creators, or performers.
+**A conversation you can type or speak.**
 
-## Features
+A character-inspired browser demo that combines text chat with optional speech input and spoken replies.
 
-- Multi-turn chat with a limited recent-history window.
-- Browser speech input where supported and switchable audio responses.
-- Persistent Chatterbox speech model with optional reference audio, sentence-level expressiveness, silence trimming, and normalization.
-- An alternative Edge TTS endpoint and browser-local chat history.
-- Input validation and local-only server binding by default.
+An exploration of connecting a browser experience, a language model, and a separate speech service.
 
-## Quick start: text chat
+![Type or speak → Generate a reply → Read or listen. Conceptual workflow.](docs/overview.svg)
 
-Requires Node.js 22 or 24 and a Groq API key.
+[Quick start](#try-it-locally) · [Technical guide](docs/TECHNICAL_GUIDE.md) · [Checks](https://github.com/Dhruvil151/barney-voice-assistant/actions) · [Portfolio](https://github.com/Dhruvil151)
 
-~~~sh
+## A simple example
+
+Open the app, send a message, and read the reply. With the optional voice setup configured, you can also hear the response and use browser speech input where supported.
+
+## What it does
+
+- Multi-turn chat with a bounded recent-history window.
+- Optional Chatterbox or Edge speech output.
+- Browser-local conversation history.
+- Validation for chat and speech requests.
+
+## Try it locally
+
+```sh
 npm ci
-~~~
+```
 
-Copy .env.example to .env, set GROQ_API_KEY, and keep TTS_AUTOSTART=false for text-only evaluation. Configure GROQ_MODEL and GROQ_FALLBACK_MODEL to models available to your account.
+Copy `.env.example` to `.env`, configure your own Groq credentials and available model, and keep `TTS_AUTOSTART=false`.
 
-~~~sh
+```sh
 npm start
-~~~
+```
 
-Open http://localhost:3000 and turn off Voice for text-only use. Chat messages are sent to Groq. History is saved in this browser's local storage; clearing site data removes it.
+Requires Node.js 22 or 24. Open `http://localhost:3000` and turn off Voice for text-only use. The technical guide covers optional Python speech setup.
 
-## Optional voice setup
+## How it is built
 
-Use a separate Python 3.11 virtual environment and install requirements_voice.txt. Chatterbox depends on PyTorch; GPU support requires a compatible installation and driver. CPU operation can be slow. The first startup downloads model weights and can take substantial time and disk space.
+**JavaScript · Express · Groq · Python · Chatterbox · Edge TTS**
 
-~~~sh
-python -m venv .venv
-~~~
+A persistent Python service keeps the speech model loaded between requests. Text-only evaluation is available separately, so trying the chat interface does not require installing the speech stack.
 
-Activate the environment, then:
+See the [technical guide](docs/TECHNICAL_GUIDE.md) for setup details, architecture, and implementation boundaries.
 
-~~~sh
-python -m pip install -r requirements_voice.txt
-python tts_server.py
-~~~
+## Checks and evidence
 
-Wait for the model-ready message, then start the Node server. Alternatively set PYTHON_CMD to your virtual environment's Python executable and TTS_AUTOSTART=true. The speech service listens on 127.0.0.1:5050.
-
-BARNEY_VOICE_REF is optional. Leave it empty for the model's default voice or supply a local recording you have permission to use. No performer recordings, generated audio, or model weights are distributed in this repository.
-
-The current Python service loads Chatterbox on startup even when Edge is selected; Edge is an alternative synthesis backend, not an independent lightweight startup mode. Edge speech also requires network access. Voice output and timing vary by hardware and provider.
-
-## API
-
-- POST /api/chat — {"message":"Hello","history":[]} → {"reply":"..."}.
-- POST /api/tts/chatterbox — {"text":"Hello"} → WAV audio.
-- POST /api/tts/edge — the same request shape, using Edge speech.
-- POST /api/tts — alias for Chatterbox.
-
-Messages and speech requests are limited to 4,000 characters. History accepts user/assistant text messages only. Missing chat credentials return a configuration error without exposing a key.
-
-## Tests
-
-~~~sh
+```sh
 npm test
-~~~
+```
 
-The tests validate malformed-input handling and missing-key behavior without calling a model or loading Python. They do not validate live provider availability, audio quality, or GPU compatibility.
+The automated suite checks the HTTP boundary without calling a live model or generating speech. A passing run is not an audio-quality evaluation.
 
-## Structure and limitations
+The [publication validation report](VALIDATION.md) records earlier checks and their limits. GitHub Actions records checks for subsequent commits.
 
-server.js serves the UI and proxies chat/speech calls; tts_server.py performs audio generation; public/ contains the interface; tests/ exercises the HTTP boundary. The app is intended for local demos. It has no user authentication or production rate limiting. Do not expose the paid-provider endpoints publicly without those controls. Never commit .env, voice recordings, or model files.
+## Current scope
 
-## Review results
+Unofficial fan-inspired local demo with no affiliation to the show or performers. Live voice quality and GPU compatibility depend on the environment. It has no authentication or production rate limiting.
 
-See [publication validation](VALIDATION.md) for the checks performed, fixes, and unverified integrations.
