@@ -10,6 +10,12 @@ An exploration of connecting a browser experience, a language model, and a separ
 
 [Quick start](#try-it-locally) · [Technical guide](docs/TECHNICAL_GUIDE.md) · [Checks](https://github.com/Dhruvil151/barney-voice-assistant/actions) · [Portfolio](https://github.com/Dhruvil151)
 
+## Interface preview
+
+![The actual voice-assistant interface before sending a message](docs/voice-interface.png)
+
+Local interface preview. No provider response or voice output is simulated in this screenshot.
+
 ## A simple example
 
 Open the app, send a message, and read the reply. With the optional voice setup configured, you can also hear the response and use browser speech input where supported.
