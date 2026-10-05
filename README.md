@@ -49,6 +49,20 @@ A persistent Python service keeps the speech model loaded between requests. Text
 
 See the [technical guide](docs/TECHNICAL_GUIDE.md) for setup details, architecture, and implementation boundaries.
 
+## Engineering decisions
+
+### Keep speech separate from chat
+
+Express handles chat requests and forwards speech work to a persistent Python service. The speech model can stay loaded across requests; its startup and hardware requirements remain significant.
+
+### Offer a text-only path
+
+Voice can be disabled while configuring only the chat provider. A reviewer can try the conversation flow without first installing the speech stack.
+
+### Bound the request surface
+
+The server validates messages and accepts a limited conversation window. This limits input size but does not replace authentication or production rate limiting.
+
 ## Checks and evidence
 
 ```sh
@@ -63,3 +77,7 @@ The [publication validation report](VALIDATION.md) records earlier checks and th
 
 Unofficial fan-inspired local demo with no affiliation to the show or performers. Live voice quality and GPU compatibility depend on the environment. It has no authentication or production rate limiting.
 
+
+## License
+
+Original project code and documentation are available under the [MIT License](LICENSE). Third-party dependencies and assets retain their own licenses; see [third-party notices](THIRD_PARTY_NOTICES.md).
